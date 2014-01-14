@@ -1,0 +1,24 @@
+diff -ur libusb-1.0.9.orig/libusb/io.c libusb-1.0.9/libusb/io.c
+--- libusb-1.0.9.orig/libusb/io.c	2012-04-20 08:44:27.000000000 +0200
++++ libusb-1.0.9/libusb/io.c	2014-01-14 14:07:17.815474531 +0100
+@@ -30,6 +30,20 @@
+ #include <sys/time.h>
+ #endif
+ 
++#ifdef __ANDROID__
++/* VERBATIM COPIED FROM glibc */
++/* Macros for converting between `struct timeval' and `struct timespec'.  */
++# define TIMEVAL_TO_TIMESPEC(tv, ts) {                                   \
++	    (ts)->tv_sec = (tv)->tv_sec;                                    \
++	    (ts)->tv_nsec = (tv)->tv_usec * 1000;                           \
++}
++# define TIMESPEC_TO_TIMEVAL(tv, ts) {                                   \
++	    (tv)->tv_sec = (ts)->tv_sec;                                    \
++	    (tv)->tv_usec = (ts)->tv_nsec / 1000;                           \
++}
++#endif
++
++
+ #ifdef USBI_TIMERFD_AVAILABLE
+ #include <sys/timerfd.h>
+ #endif
