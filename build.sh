@@ -120,12 +120,15 @@ for lib in $our_ANDROID_EXTRA_LIBS ; do
 done
 popd
 
-cd subsurface
-$QT5_ANDROID_BIN/qmake V=1 QT_CONFIG=+pkg-config -d
+mkdir subsurface-build
+cd subsurface-build
+$QT5_ANDROID_BIN/qmake V=1 QT_CONFIG=+pkg-config -d ../subsurface
 # CONFIG+=static
 #perl -pi -e 's/-lmarblewidget//' Makefile
 make -j4
 make install INSTALL_ROOT=android_build
 mkdir -p android_build/libs/armeabi-v7a
 cp libsubsurface.so android_build/libs/armeabi-v7a/libsubsurface.so
+# bug in androiddeployqt?
+ln -s android-libsubsurface.so-deployment-settings.json android-libsubsurface-build.so-deployment-settings.json
 $QT5_ANDROID_BIN/androiddeployqt --output android_build #--install
