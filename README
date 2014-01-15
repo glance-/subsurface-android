@@ -1,1 +1,9 @@
 Tool repo to crosscompile subsurface to android-arm
+
+Grab..
+Android ndk from:
+http://developer.android.com/tools/sdk/ndk/index.html
+Android sdk from:
+http://developer.android.com/sdk/index.html#download
+And QT for android from:
+http://qt-project.org/downloads
