@@ -120,7 +120,7 @@ for lib in $our_ANDROID_EXTRA_LIBS ; do
 done
 popd
 
-mkdir subsurface-build
+mkdir -p subsurface-build
 cd subsurface-build
 $QT5_ANDROID_BIN/qmake V=1 QT_CONFIG=+pkg-config -d ../subsurface
 # CONFIG+=static
