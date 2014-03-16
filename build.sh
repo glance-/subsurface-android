@@ -126,5 +126,5 @@ $QT5_ANDROID_BIN/qmake V=1 QT_CONFIG=+pkg-config -d ../subsurface
 make -j4
 make install INSTALL_ROOT=android_build
 # bug in androiddeployqt?
-ln -s android-libsubsurface.so-deployment-settings.json android-libsubsurface-build.so-deployment-settings.json
+ln -fs android-libsubsurface.so-deployment-settings.json android-libsubsurface-build.so-deployment-settings.json
 $QT5_ANDROID_BIN/androiddeployqt --output android_build #--install
