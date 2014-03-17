@@ -1,7 +1,7 @@
 set -e
 export ANDROID_NDK_ROOT=$PWD/../android-ndk-r9c
 export ANDROID_SDK_ROOT=$PWD/../android-sdk-linux
-export QT5_ANDROID_BIN=$PWD/../Qt5.2.0/5.2.0/android_armv7/bin
+export QT5_ANDROID_BIN=$PWD/../Qt5.2.1/5.2.1/android_armv7/bin
 if [ ! -e ndk-arm ] ; then
 	$ANDROID_NDK_ROOT/build/tools/make-standalone-toolchain.sh --install-dir=ndk-arm --platform=android-14
 fi
