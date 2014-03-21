@@ -57,7 +57,7 @@ fi
 if [ ! -e $PKG_CONFIG_PATH/libxslt.pc ] ; then
 	mkdir -p libxslt-build
 	pushd libxslt-build
-	../libxslt-1.1.28/configure --host=arm-linux-androideabi --prefix=${PREFIX} --with-libxml-prefix=${PREFIX} --without-python
+	../libxslt-1.1.28/configure --host=arm-linux-androideabi --prefix=${PREFIX} --with-libxml-prefix=${PREFIX} --without-python --without-crypto
 	make
 	make install
 	popd
