@@ -1,8 +1,9 @@
 *.tar.*
-*-build/
+*-build-*/
 libusb-*/
 libxml2-*/
 libxslt-*/
 libzip-*/
-ndk-arm/
+libgit2-*/
+ndk-*/
 sqlite-autoconf-*/
