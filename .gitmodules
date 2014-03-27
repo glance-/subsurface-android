@@ -4,5 +4,5 @@
 	pushurl = git@github.com:glance-/libdivecomputer.git
 [submodule "subsurface"]
 	path = subsurface
-	url = git://github.com/glance-/subsurface.git
+	url = git://subsurface.hohndel.org/subsurface.git
 	pushurl = git@github.com:glance-/subsurface.git
