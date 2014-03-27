@@ -6,7 +6,7 @@ export ANDROID_SDK_ROOT=$PWD/../android-sdk-linux
 export QT5_ANDROID=$PWD/../Qt5.2.1/5.2.1
 
 # arm or x86
-export ARCH=${0-arm}
+export ARCH=${1-arm}
 
 if [ "$ARCH" = "arm" ] ; then
 	QT_ARCH="armv7"
