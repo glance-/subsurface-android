@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 # Configure where we can find things here
-export ANDROID_NDK_ROOT=$PWD/../android-ndk-r9c
+export ANDROID_NDK_ROOT=$PWD/../android-ndk-r9d
 export ANDROID_SDK_ROOT=$PWD/../android-sdk-linux
 export QT5_ANDROID=$PWD/../Qt5.2.1/5.2.1
 
