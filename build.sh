@@ -41,7 +41,7 @@ fi
 if [ ! -e $PKG_CONFIG_PATH/sqlite3.pc ] ; then
 	mkdir -p sqlite-build-$ARCH
 	pushd sqlite-build-$ARCH
-	../sqlite-autoconf-3080200/configure --host=${BUILDCHAIN} --prefix=${PREFIX}
+	../sqlite-autoconf-3080200/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared
 	make -j4
 	make install
 	popd
@@ -56,7 +56,7 @@ fi
 if [ ! -e $PKG_CONFIG_PATH/libxml-2.0.pc ] ; then
 	mkdir -p libxml2-build-$ARCH
 	pushd libxml2-build-$ARCH
-	../libxml2-2.9.1/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --without-python --without-iconv
+	../libxml2-2.9.1/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --without-python --without-iconv --enable-static --disable-shared
 	perl -pi -e 's/runtest\$\(EXEEXT\)//' Makefile
 	perl -pi -e 's/testrecurse\$\(EXEEXT\)//' Makefile
 	make -j4
@@ -74,7 +74,7 @@ fi
 if [ ! -e $PKG_CONFIG_PATH/libxslt.pc ] ; then
 	mkdir -p libxslt-build-$ARCH
 	pushd libxslt-build-$ARCH
-	../libxslt-1.1.28/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --with-libxml-prefix=${PREFIX} --without-python --without-crypto
+	../libxslt-1.1.28/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --with-libxml-prefix=${PREFIX} --without-python --without-crypto --enable-static --disable-shared
 	make
 	make install
 	popd
@@ -89,7 +89,7 @@ fi
 if [ ! -e $PKG_CONFIG_PATH/libzip.pc ] ; then
 	mkdir -p libzip-build-$ARCH
 	pushd libzip-build-$ARCH
-	../libzip-0.11.2/configure --host=${BUILDCHAIN} --prefix=${PREFIX}
+	../libzip-0.11.2/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared
 	make
 	make install
 	popd
@@ -125,7 +125,7 @@ fi
 if [ ! -e $PKG_CONFIG_PATH/libusb-1.0.pc ] ; then
 	mkdir -p libusb-build-$ARCH
 	pushd libusb-build-$ARCH
-	../libusb-1.0.9/configure --host=${BUILDCHAIN} --prefix=${PREFIX}
+	../libusb-1.0.9/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared
 	make
 	make install
 	popd
@@ -140,19 +140,11 @@ fi
 if [ ! -e $PKG_CONFIG_PATH/libdivecomputer.pc ] ; then
 	mkdir -p libdivecomputer-build-$ARCH
 	pushd libdivecomputer-build-$ARCH
-	../libdivecomputer/configure --host=${BUILDCHAIN} --prefix=${PREFIX}
+	../libdivecomputer/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared
 	make
 	make install
 	popd
 fi
-
-# fooling qmake into linking staticly
-our_ANDROID_EXTRA_LIBS="libdivecomputer.so libsqlite3.so libxml2.so libxslt.so libzip.so libusb-1.0.so"
-pushd $PREFIX/lib
-for lib in $our_ANDROID_EXTRA_LIBS ; do
-	rm -f $lib*
-done
-popd
 
 mkdir -p subsurface-build-$ARCH
 cd subsurface-build-$ARCH
