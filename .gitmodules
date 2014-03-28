@@ -1,6 +1,6 @@
 [submodule "libdivecomputer"]
 	path = libdivecomputer
-	url = git://github.com/glance-/libdivecomputer.git
+	url = git://git.libdivecomputer.org/libdivecomputer.git
 	pushurl = git@github.com:glance-/libdivecomputer.git
 [submodule "subsurface"]
 	path = subsurface
