@@ -148,7 +148,9 @@ fi
 
 mkdir -p subsurface-build-$ARCH
 cd subsurface-build-$ARCH
-$QT5_ANDROID_BIN/qmake V=1 QT_CONFIG=+pkg-config -d ../subsurface
+if [ ! -e Makefile ] ; then
+	$QT5_ANDROID_BIN/qmake V=1 QT_CONFIG=+pkg-config ../subsurface
+fi
 make -j4
 make install INSTALL_ROOT=android_build
 # bug in androiddeployqt? why is it looking for something with the builddir in it?
