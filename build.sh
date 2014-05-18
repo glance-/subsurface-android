@@ -28,9 +28,10 @@ export CC=${BUILDCHAIN}-gcc
 export CXX=${BUILDCHAIN}-g++
 
 # Fetch external repos
-git submodule init
-git submodule update
-#git submodule foreach --recursive git checkout android
+if [ ! -e subsurface ] || [ ! -e libdivecomputer ] ; then
+	git submodule init
+	git submodule update
+fi
 
 if [ ! -e sqlite-autoconf-3080200.tar.gz ] ; then
 	wget http://www.sqlite.org/2013/sqlite-autoconf-3080200.tar.gz
