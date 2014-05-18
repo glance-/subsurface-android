@@ -1,9 +1,43 @@
 Tool repo to crosscompile subsurface to android-arm
+---------------------------------------------------
 
+Dependencies:
+
+1. android_sdk, android_ndk and Qt5.2.1. See step 0.
+2. cmake
+3. ant
+4. Java
+5. working adb is recommended
+6. dependencies of libdivecomputer and subsurface -
+   visit http://subsurface.hohndel.org/documentation/building/
+
+Steps to install:
+
+Step 0.
 Grab..
-Android ndk from:
-http://developer.android.com/tools/sdk/ndk/index.html
-Android sdk from:
-http://developer.android.com/sdk/index.html#download
-And QT for android from:
-http://qt-project.org/downloads
+Android ndk from: http://developer.android.com/tools/sdk/ndk/index.html
+Android sdk from: http://developer.android.com/sdk/index.html#download
+And QT for android from: http://qt-project.org/downloads
+
+Extract and install these into known directories.
+Let these directories be android_ndk, android_sdk and Qt5.2.1
+
+Step 1.
+Edit build.sh script present in this repository to set proper path to
+android_sdk, android_ndk and Qt5.2.1 as per your system. (lines 2-4)
+Also decide the android version you are building for (line 6)
+
+Step 2.
+Run bash build.sh in the terminal.
+The script will download and build the following libraries for android
+1. libsqlite3
+2. libxml2
+3. libxslt
+4. libgit2
+5. libusb1
+6. libdivecomputer
+
+After this, subsurface will be built for android.
+
+The output folder is subsurface-build/android_build
+You can import this folder in eclipse and run in your android devices.
