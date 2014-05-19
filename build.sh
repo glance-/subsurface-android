@@ -134,6 +134,25 @@ if [ ! -e $PKG_CONFIG_PATH/libusb-1.0.pc ] ; then
 	sed -ie 's/Libs.private:  -c/Libs.private: /' $PKG_CONFIG_PATH/libusb-1.0.pc
 fi
 
+if [ ! -e libftdi1-1.1.tar.bz2 ] ; then
+	wget http://www.intra2net.com/en/developer/libftdi/download/libftdi1-1.1.tar.bz2
+fi
+if [ ! -e libftdi1-1.1 ] ; then
+	tar -jxf libftdi1-1.1.tar.bz2
+fi
+if [ ! -e $PKG_CONFIG_PATH/libftdipp1.pc ] ; then
+	mkdir -p libftdi1-build-$ARCH
+	pushd libftdi1-build-$ARCH
+	cmake -DCMAKE_C_COMPILER=${CC} -DCMAKE_INSTALL_PREFIX=${PREFIX} -DBUILD_SHARED_LIBS=OFF -DSTATICLIBS=ON -DPYTHON_BINDINGS=OFF -DDOCUMENTATION=OFF -DFTDIPP=OFF ../libftdi1-1.1
+	make
+	make install
+	popd
+	# Remove the shared parts, We Like static!
+	rm $PREFIX/lib/libftdi1.so*
+	# Remove the pkg-config c++ wrappers, THAT WE DIDNT BUILD!
+	rm $PKG_CONFIG_PATH/libftdipp1.pc
+fi
+
 if [ ! -e libdivecomputer/configure ] ; then
 	pushd libdivecomputer
 	autoreconf -i
