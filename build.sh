@@ -155,4 +155,4 @@ make -j4
 make install INSTALL_ROOT=android_build
 # bug in androiddeployqt? why is it looking for something with the builddir in it?
 ln -fs android-libsubsurface.so-deployment-settings.json android-libsubsurface-build-${ARCH}.so-deployment-settings.json
-$QT5_ANDROID_BIN/androiddeployqt --output android_build --install
+$QT5_ANDROID_BIN/androiddeployqt --output android_build
