@@ -3,7 +3,7 @@ set -e
 # Configure where we can find things here
 export ANDROID_NDK_ROOT=$PWD/../android-ndk-r9d
 export ANDROID_SDK_ROOT=$PWD/../android-sdk-linux
-export QT5_ANDROID=$PWD/../Qt5.2.1/5.2.1
+export QT5_ANDROID=$PWD/../Qt5.3.0/5.3
 
 # arm or x86
 export ARCH=${1-arm}
