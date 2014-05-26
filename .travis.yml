@@ -2,7 +2,7 @@ language: c++
 
 install:
     - sudo apt-get -qq update
-    - sudo apt-get -qq -y install openjdk-7-jdk ant lib32z1-dev lib32stdc++6
+    - sudo apt-get -qq -y install openjdk-7-jdk ant lib32z1-dev lib32stdc++6 p7zip
     - wget http://dl.google.com/android/android-sdk_r22.6.2-linux.tgz
     - tar -zxf android-sdk_r22.6.2-linux.tgz
     - wget http://dl.google.com/android/ndk/android-ndk-r9d-linux-x86_64.tar.bz2
@@ -10,8 +10,8 @@ install:
     - wget http://download.qt-project.org/official_releases/qt/5.3/5.3.0/qt-opensource-linux-x64-android-5.3.0.run
     - chmod +x ./qt-opensource-linux-x64-android-5.3.0.run
     - ./qt-opensource-linux-x64-android-5.3.0.run --dump-binary-data -o QT
-    - mv QT/* .
-    - rmdir QT
+    - ( mkdir Qt5.3.0 ; cd Qt5.3.0 ; for file in ../QT/qt.*.android_*/*7z ; do 7zr x $file ; done )
+    - rm -rf QT
 
 before_script:
     - perl -pi -e 's,=\$PWD/../,=\$PWD/,' ./build.sh
