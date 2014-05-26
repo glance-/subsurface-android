@@ -5,6 +5,7 @@ install:
     - sudo apt-get -qq -y install openjdk-7-jdk ant lib32z1-dev lib32stdc++6 p7zip
     - wget http://dl.google.com/android/android-sdk_r22.6.2-linux.tgz
     - tar -zxf android-sdk_r22.6.2-linux.tgz
+    - (sleep 5 ; while true ; do sleep 1 ; printf 'y\r\n' ; done ) | ./android-sdk-linux/tools/android update sdk -u -a -t android-14
     - wget http://dl.google.com/android/ndk/android-ndk-r9d-linux-x86_64.tar.bz2
     - tar -jxf android-ndk-r9d-linux-x86_64.tar.bz2
     - wget http://download.qt-project.org/official_releases/qt/5.3/5.3.0/qt-opensource-linux-x64-android-5.3.0.run
