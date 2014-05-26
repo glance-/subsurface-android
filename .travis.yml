@@ -10,7 +10,8 @@ install:
     - wget http://download.qt-project.org/official_releases/qt/5.3/5.3.0/qt-opensource-linux-x64-android-5.3.0.run
     - chmod +x ./qt-opensource-linux-x64-android-5.3.0.run
     - ./qt-opensource-linux-x64-android-5.3.0.run --dump-binary-data -o QT
-    - ( mkdir Qt5.3.0 ; cd Qt5.3.0 ; for file in ../QT/qt.*.android_*/*7z ; do 7zr x $file ; done )
+    - ( mkdir Qt5.3.0 ; cd Qt5.3.0 ; for file in ../QT/qt.*.android_*/*7z ; do 7zr x $file | grep -v ^Extract ; done )
+    - ( for d in Qt*/*/android_*/bin/ ; do printf '[Paths]\nPrefix=..\n' > $d/qt.conf ; done )
     - rm -rf QT
 
 before_script:
