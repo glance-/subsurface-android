@@ -28,7 +28,7 @@ export CC=${BUILDCHAIN}-gcc
 export CXX=${BUILDCHAIN}-g++
 
 # Fetch external repos
-if [ ! -e subsurface ] || [ ! -e libdivecomputer ] ; then
+if [ ! -e subsurface/CMakeLists.txt ] || [ ! -e libdivecomputer/configure.ac ] ; then
 	git submodule init
 	git submodule update
 fi
