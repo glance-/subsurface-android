@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 # Configure where we can find things here
-export ANDROID_NDK_ROOT=$PWD/../android-ndk-r9d
+export ANDROID_NDK_ROOT=$PWD/../android-ndk-r10
 export ANDROID_SDK_ROOT=$PWD/../android-sdk-linux
-export QT5_ANDROID=$PWD/../Qt5.3.0/5.3
+export QT5_ANDROID=$PWD/../Qt5.3.1/5.3
 
 # arm or x86
 export ARCH=${1-arm}
@@ -33,16 +33,16 @@ if [ ! -e subsurface/CMakeLists.txt ] || [ ! -e libdivecomputer/configure.ac ] ;
 	git submodule update
 fi
 
-if [ ! -e sqlite-autoconf-3080200.tar.gz ] ; then
-	wget http://www.sqlite.org/2013/sqlite-autoconf-3080200.tar.gz
+if [ ! -e sqlite-autoconf-3080600.tar.gz ] ; then
+	wget http://www.sqlite.org/2014/sqlite-autoconf-3080600.tar.gz
 fi
-if [ ! -e sqlite-autoconf-3080200 ] ; then
-	tar -zxf sqlite-autoconf-3080200.tar.gz
+if [ ! -e sqlite-autoconf-3080600 ] ; then
+	tar -zxf sqlite-autoconf-3080600.tar.gz
 fi
 if [ ! -e $PKG_CONFIG_PATH/sqlite3.pc ] ; then
 	mkdir -p sqlite-build-$ARCH
 	pushd sqlite-build-$ARCH
-	../sqlite-autoconf-3080200/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared
+	../sqlite-autoconf-3080600/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared
 	make -j4
 	make install
 	popd
@@ -96,39 +96,42 @@ if [ ! -e $PKG_CONFIG_PATH/libzip.pc ] ; then
 	popd
 fi
 
-if [ ! -e libgit2-0.20.0.tar.gz ] ; then
-	wget -O libgit2-0.20.0.tar.gz https://github.com/libgit2/libgit2/archive/v0.20.0.tar.gz
+if [ ! -e libgit2-0.21.1.tar.gz ] ; then
+	wget -O libgit2-0.21.1.tar.gz https://github.com/libgit2/libgit2/archive/v0.21.1.tar.gz
 fi
-if [ ! -e libgit2-0.20.0 ] ; then
-	tar -zxf libgit2-0.20.0.tar.gz
+if [ ! -e libgit2-0.21.1 ] ; then
+	tar -zxf libgit2-0.21.1.tar.gz
 fi
 if [ ! -e $PKG_CONFIG_PATH/libgit2.pc ] ; then
 	mkdir -p libgit2-build-$ARCH
 	pushd libgit2-build-$ARCH
 	# -DCMAKE_CXX_COMPILER=arm-linux-androideabi-g++
-	cmake -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_VERSION=Android -DCMAKE_C_COMPILER=${CC} -DCMAKE_FIND_ROOT_PATH=${PREFIX} -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY -DANDROID=ON -DSHA1_TYPE=builtin -DBUILD_CLAR=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=${PREFIX} ../libgit2-0.20.0/
+	cmake -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_VERSION=Android -DCMAKE_C_COMPILER=${CC} -DCMAKE_FIND_ROOT_PATH=${PREFIX} -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY -DANDROID=ON -DSHA1_TYPE=builtin -DBUILD_CLAR=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=${PREFIX} ../libgit2-0.21.1/
 	make
 	make install
 	popd
 fi
 
-if [ ! -e libusb-1.0.9.tar.bz2 ] ; then
-	wget http://sourceforge.net/projects/libusb/files/libusb-1.0/libusb-1.0.9/libusb-1.0.9.tar.bz2
+if [ ! -e libusb-1.0.19.tar.gz ] ; then
+	wget -O libusb-1.0.19.tar.gz https://github.com/libusb/libusb/archive/v1.0.19.tar.gz
 fi
-if [ ! -e libusb-1.0.9 ] ; then
-	tar -jxf libusb-1.0.9.tar.bz2
+if [ ! -e libusb-1.0.19 ] ; then
+	tar -zxf libusb-1.0.19.tar.gz
 fi
-if ! grep -q __ANDROID__ libusb-1.0.9/libusb/io.c ; then
-	# patch libusb to build with android-ndk
-	patch -p1 < libusb-1.0.9-android.patch  libusb-1.0.9/libusb/io.c
+if [ ! -e libusb-1.0.19/configure ] ; then
+	pushd libusb-1.0.19
+	autoreconf -i
+	popd
 fi
 if [ ! -e $PKG_CONFIG_PATH/libusb-1.0.pc ] ; then
 	mkdir -p libusb-build-$ARCH
 	pushd libusb-build-$ARCH
-	../libusb-1.0.9/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared
+	../libusb-1.0.19/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared --disable-udev
 	make
 	make install
 	popd
+	# Patch libusb-1.0.pc due to bug in there
+	sed -ie 's/Libs.private:  -c/Libs.private: /' $PKG_CONFIG_PATH/libusb-1.0.pc
 fi
 
 if [ ! -e libdivecomputer/configure ] ; then
