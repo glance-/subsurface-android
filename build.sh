@@ -1,9 +1,11 @@
 #!/bin/bash
 set -e
+
 # Configure where we can find things here
-export ANDROID_NDK_ROOT=$PWD/../android-ndk-r10
+export ANDROID_NDK_ROOT=$PWD/../android-ndk-r10c
 export ANDROID_SDK_ROOT=$PWD/../android-sdk-linux
-export QT5_ANDROID=$PWD/../Qt5.3.1/5.3
+export QT5_ANDROID=$PWD/../Qt5.3.2/5.3
+export ANDROID_NDK_HOST=linux-x86
 
 # arm or x86
 export ARCH=${1-arm}
@@ -11,10 +13,10 @@ export ARCH=${1-arm}
 if [ "$ARCH" = "arm" ] ; then
 	QT_ARCH="armv7"
 	BUILDCHAIN=arm-linux-androideabi
-else if [ "$ARCH" = "x86" ] ; then
+elif [ "$ARCH" = "x86" ] ; then
 	QT_ARCH=$ARCH
 	BUILDCHAIN=i686-linux-android
-fi fi
+fi
 export QT5_ANDROID_BIN=${QT5_ANDROID}/android_${QT_ARCH}/bin
 
 if [ ! -e ndk-$ARCH ] ; then
@@ -33,31 +35,31 @@ if [ ! -e subsurface/CMakeLists.txt ] || [ ! -e libdivecomputer/configure.ac ] ;
 	git submodule update
 fi
 
-if [ ! -e sqlite-autoconf-3080600.tar.gz ] ; then
-	wget http://www.sqlite.org/2014/sqlite-autoconf-3080600.tar.gz
+if [ ! -e sqlite-autoconf-3080701.tar.gz ] ; then
+	wget http://www.sqlite.org/2014/sqlite-autoconf-3080701.tar.gz
 fi
-if [ ! -e sqlite-autoconf-3080600 ] ; then
-	tar -zxf sqlite-autoconf-3080600.tar.gz
+if [ ! -e sqlite-autoconf-3080701 ] ; then
+	tar -zxf sqlite-autoconf-3080701.tar.gz
 fi
 if [ ! -e $PKG_CONFIG_PATH/sqlite3.pc ] ; then
 	mkdir -p sqlite-build-$ARCH
 	pushd sqlite-build-$ARCH
-	../sqlite-autoconf-3080600/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared
+	../sqlite-autoconf-3080701/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared
 	make -j4
 	make install
 	popd
 fi
 
-if [ ! -e libxml2-2.9.1.tar.gz ] ; then
-	wget ftp://xmlsoft.org/libxml2/libxml2-2.9.1.tar.gz
+if [ ! -e libxml2-2.9.2.tar.gz ] ; then
+	wget ftp://xmlsoft.org/libxml2/libxml2-2.9.2.tar.gz
 fi
-if [ ! -e libxml2-2.9.1 ] ; then
-	tar -zxf libxml2-2.9.1.tar.gz
+if [ ! -e libxml2-2.9.2 ] ; then
+	tar -zxf libxml2-2.9.2.tar.gz
 fi
 if [ ! -e $PKG_CONFIG_PATH/libxml-2.0.pc ] ; then
 	mkdir -p libxml2-build-$ARCH
 	pushd libxml2-build-$ARCH
-	../libxml2-2.9.1/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --without-python --without-iconv --enable-static --disable-shared
+	../libxml2-2.9.2/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --without-python --without-iconv --enable-static --disable-shared
 	perl -pi -e 's/runtest\$\(EXEEXT\)//' Makefile
 	perl -pi -e 's/testrecurse\$\(EXEEXT\)//' Makefile
 	make -j4
@@ -70,7 +72,7 @@ if [ ! -e libxslt-1.1.28.tar.gz ] ; then
 fi
 if [ ! -e libxslt-1.1.28 ] ; then
 	tar -zxf libxslt-1.1.28.tar.gz
-	cp libxml2-2.9.1/config.sub libxslt-1.1.28
+	cp libxml2-2.9.2/config.sub libxslt-1.1.28
 fi
 if [ ! -e $PKG_CONFIG_PATH/libxslt.pc ] ; then
 	mkdir -p libxslt-build-$ARCH
@@ -96,17 +98,17 @@ if [ ! -e $PKG_CONFIG_PATH/libzip.pc ] ; then
 	popd
 fi
 
-if [ ! -e libgit2-0.21.1.tar.gz ] ; then
-	wget -O libgit2-0.21.1.tar.gz https://github.com/libgit2/libgit2/archive/v0.21.1.tar.gz
+if [ ! -e libgit2-0.21.2.tar.gz ] ; then
+	wget -O libgit2-0.21.2.tar.gz https://github.com/libgit2/libgit2/archive/v0.21.2.tar.gz
 fi
-if [ ! -e libgit2-0.21.1 ] ; then
-	tar -zxf libgit2-0.21.1.tar.gz
+if [ ! -e libgit2-0.21.2 ] ; then
+	tar -zxf libgit2-0.21.2.tar.gz
 fi
 if [ ! -e $PKG_CONFIG_PATH/libgit2.pc ] ; then
 	mkdir -p libgit2-build-$ARCH
 	pushd libgit2-build-$ARCH
 	# -DCMAKE_CXX_COMPILER=arm-linux-androideabi-g++
-	cmake -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_VERSION=Android -DCMAKE_C_COMPILER=${CC} -DCMAKE_FIND_ROOT_PATH=${PREFIX} -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY -DANDROID=ON -DSHA1_TYPE=builtin -DBUILD_CLAR=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=${PREFIX} ../libgit2-0.21.1/
+	cmake -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_VERSION=Android -DCMAKE_C_COMPILER=${CC} -DCMAKE_FIND_ROOT_PATH=${PREFIX} -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY -DANDROID=ON -DSHA1_TYPE=builtin -DBUILD_CLAR=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=${PREFIX} ../libgit2-0.21.2/
 	make
 	make install
 	popd
