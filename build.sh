@@ -122,6 +122,7 @@ if [ ! -e libusb-1.0.19 ] ; then
 fi
 if [ ! -e libusb-1.0.19/configure ] ; then
 	pushd libusb-1.0.19
+	mkdir m4
 	autoreconf -i
 	popd
 fi
