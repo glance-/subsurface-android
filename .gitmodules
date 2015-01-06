@@ -1,7 +1,7 @@
 [submodule "libdivecomputer"]
 	path = libdivecomputer
-	url = git://git.libdivecomputer.org/libdivecomputer.git
-	pushurl = git@github.com:glance-/libdivecomputer.git
+	url = git://subsurface-divelog.org/libdc
+	branch = Subsurface-testing
 [submodule "subsurface"]
 	path = subsurface
 	url = git://subsurface.hohndel.org/subsurface.git
