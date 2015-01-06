@@ -2,9 +2,9 @@
 set -e
 
 # Configure where we can find things here
-export ANDROID_NDK_ROOT=$PWD/../android-ndk-r10c
+export ANDROID_NDK_ROOT=$PWD/../android-ndk-r10d
 export ANDROID_SDK_ROOT=$PWD/../android-sdk-linux
-export QT5_ANDROID=$PWD/../Qt5.3.2/5.3
+export QT5_ANDROID=$PWD/../Qt/5.4
 export ANDROID_NDK_HOST=linux-x86
 
 # arm or x86
@@ -35,16 +35,16 @@ if [ ! -e subsurface/CMakeLists.txt ] || [ ! -e libdivecomputer/configure.ac ] ;
 	git submodule update
 fi
 
-if [ ! -e sqlite-autoconf-3080701.tar.gz ] ; then
-	wget http://www.sqlite.org/2014/sqlite-autoconf-3080701.tar.gz
+if [ ! -e sqlite-autoconf-3080704.tar.gz ] ; then
+	wget http://www.sqlite.org/2014/sqlite-autoconf-3080704.tar.gz
 fi
-if [ ! -e sqlite-autoconf-3080701 ] ; then
-	tar -zxf sqlite-autoconf-3080701.tar.gz
+if [ ! -e sqlite-autoconf-3080704 ] ; then
+	tar -zxf sqlite-autoconf-3080704.tar.gz
 fi
 if [ ! -e $PKG_CONFIG_PATH/sqlite3.pc ] ; then
 	mkdir -p sqlite-build-$ARCH
 	pushd sqlite-build-$ARCH
-	../sqlite-autoconf-3080701/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared
+	../sqlite-autoconf-3080704/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared
 	make -j4
 	make install
 	popd
