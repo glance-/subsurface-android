@@ -3,16 +3,16 @@ language: c++
 install:
     - sudo apt-get -qq update
     - sudo apt-get -qq -y install openjdk-7-jdk ant lib32z1-dev lib32stdc++6 p7zip
-    - wget http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
-    - tar -zxf android-sdk_r23.0.2-linux.tgz
+    - wget http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz
+    - tar -zxf android-sdk_r24.0.2-linux.tgz
     - (sleep 5 ; while true ; do sleep 1 ; printf 'y\r\n' ; done ) | ./android-sdk-linux/tools/android update sdk -u -a -t android-14,platform-tool,build-tools-20.0.0
-    - wget http://dl.google.com/android/ndk/android-ndk-r10c-linux-x86.bin
-    - 7zr x android-ndk-r10c-linux-x86.bin | grep -v ^Extract
-    - wget http://download.qt-project.org/official_releases/qt/5.3/5.3.2/qt-opensource-linux-x64-android-5.3.2.run
-    - chmod +x ./qt-opensource-linux-x64-android-5.3.2.run
-    - ./qt-opensource-linux-x64-android-5.3.2.run --dump-binary-data -o QT
-    - ( mkdir Qt5.3.2 ; cd Qt5.3.2 ; for file in ../QT/qt.*.android_*/*7z ; do 7zr x $file | grep -v ^Extract ; done )
-    - ( for d in Qt*/*/android_*/bin/ ; do printf '[Paths]\nPrefix=..\n' > $d/qt.conf ; done )
+    - wget http://dl.google.com/android/ndk/android-ndk-r10d-linux-x86.bin
+    - 7zr x android-ndk-r10d-linux-x86.bin | grep -v ^Extract
+    - wget http://download.qt-project.org/official_releases/qt/5.4/5.4.0/qt-opensource-linux-x64-android-5.4.0.run
+    - chmod +x ./qt-opensource-linux-x64-android-5.4.0.run
+    - ./qt-opensource-linux-x64-android-5.4.0.run --dump-binary-data -o QT_7zr
+    - ( mkdir Qt; cd Qt; for file in ../QT_7zr/qt.*.android_*/*7z ; do 7zr x $file | grep -v ^Extract ; done )
+    - ( for d in Qt/*/android_*/bin/ ; do printf '[Paths]\nPrefix=..\n' > $d/qt.conf ; done )
     - rm -rf QT
 
 before_script:
