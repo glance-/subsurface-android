@@ -121,7 +121,7 @@ if [ ! -e $PKG_CONFIG_LIBDIR/libgit2.pc ] ; then
 	make
 	make install
 	# Patch away pkg-config dependency to zlib, its there, i promise
-	perl -pie 's/^(Requires.private:.*)zlib(.*)$/$1 $2/' $PKG_CONFIG_LIBDIR/libgit2.pc
+	perl -pi -e 's/^(Requires.private:.*)zlib(.*)$/$1 $2/' $PKG_CONFIG_LIBDIR/libgit2.pc
 	popd
 fi
 
