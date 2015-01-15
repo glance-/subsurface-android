@@ -33,7 +33,7 @@ fi
 export BUILDROOT=$PWD
 export PATH=${BUILDROOT}/ndk-$ARCH/bin:$PATH
 export PREFIX=${BUILDROOT}/ndk-$ARCH/sysroot/usr
-export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig
+export PKG_CONFIG_LIBDIR=${PREFIX}/lib/pkgconfig
 export CC=${BUILDCHAIN}-gcc
 export CXX=${BUILDCHAIN}-g++
 
@@ -49,7 +49,7 @@ fi
 if [ ! -e sqlite-autoconf-${SQLITE_VERSION} ] ; then
 	tar -zxf sqlite-autoconf-${SQLITE_VERSION}.tar.gz
 fi
-if [ ! -e $PKG_CONFIG_PATH/sqlite3.pc ] ; then
+if [ ! -e $PKG_CONFIG_LIBDIR/sqlite3.pc ] ; then
 	mkdir -p sqlite-build-$ARCH
 	pushd sqlite-build-$ARCH
 	../sqlite-autoconf-${SQLITE_VERSION}/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared
@@ -64,7 +64,7 @@ fi
 if [ ! -e libxml2-${LIBXML2_VERSION} ] ; then
 	tar -zxf libxml2-${LIBXML2_VERSION}.tar.gz
 fi
-if [ ! -e $PKG_CONFIG_PATH/libxml-2.0.pc ] ; then
+if [ ! -e $PKG_CONFIG_LIBDIR/libxml-2.0.pc ] ; then
 	mkdir -p libxml2-build-$ARCH
 	pushd libxml2-build-$ARCH
 	../libxml2-${LIBXML2_VERSION}/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --without-python --without-iconv --enable-static --disable-shared
@@ -83,7 +83,7 @@ if [ ! -e libxslt-${LIBXSLT_VERSION} ] ; then
 	# libxslt have too old config.sub for android
 	cp libxml2-${LIBXML2_VERSION}/config.sub libxslt-${LIBXSLT_VERSION}
 fi
-if [ ! -e $PKG_CONFIG_PATH/libxslt.pc ] ; then
+if [ ! -e $PKG_CONFIG_LIBDIR/libxslt.pc ] ; then
 	mkdir -p libxslt-build-$ARCH
 	pushd libxslt-build-$ARCH
 	../libxslt-${LIBXSLT_VERSION}/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --with-libxml-prefix=${PREFIX} --without-python --without-crypto --enable-static --disable-shared
@@ -98,7 +98,7 @@ fi
 if [ ! -e libzip-${LIBZIP_VERSION} ] ; then
 	tar -zxf libzip-${LIBZIP_VERSION}.tar.gz
 fi
-if [ ! -e $PKG_CONFIG_PATH/libzip.pc ] ; then
+if [ ! -e $PKG_CONFIG_LIBDIR/libzip.pc ] ; then
 	mkdir -p libzip-build-$ARCH
 	pushd libzip-build-$ARCH
 	../libzip-${LIBZIP_VERSION}/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared
@@ -113,7 +113,7 @@ fi
 if [ ! -e libgit2-${LIBGIT2_VERSION} ] ; then
 	tar -zxf libgit2-${LIBGIT2_VERSION}.tar.gz
 fi
-if [ ! -e $PKG_CONFIG_PATH/libgit2.pc ] ; then
+if [ ! -e $PKG_CONFIG_LIBDIR/libgit2.pc ] ; then
 	mkdir -p libgit2-build-$ARCH
 	pushd libgit2-build-$ARCH
 	# -DCMAKE_CXX_COMPILER=arm-linux-androideabi-g++
@@ -137,7 +137,7 @@ if [ ! -e libusb-${LIBUSB_VERSION}/configure ] ; then
 	autoreconf -i
 	popd
 fi
-if [ ! -e $PKG_CONFIG_PATH/libusb-1.0.pc ] ; then
+if [ ! -e $PKG_CONFIG_LIBDIR/libusb-1.0.pc ] ; then
 	mkdir -p libusb-build-$ARCH
 	pushd libusb-build-$ARCH
 	../libusb-${LIBUSB_VERSION}/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared --disable-udev
@@ -145,7 +145,7 @@ if [ ! -e $PKG_CONFIG_PATH/libusb-1.0.pc ] ; then
 	make install
 	popd
 	# Patch libusb-1.0.pc due to bug in there
-	sed -ie 's/Libs.private:  -c/Libs.private: /' $PKG_CONFIG_PATH/libusb-1.0.pc
+	sed -ie 's/Libs.private:  -c/Libs.private: /' $PKG_CONFIG_LIBDIR/libusb-1.0.pc
 fi
 
 if [ ! -e libdivecomputer/configure ] ; then
@@ -154,7 +154,7 @@ if [ ! -e libdivecomputer/configure ] ; then
 	popd
 fi
 
-if [ ! -e $PKG_CONFIG_PATH/libdivecomputer.pc ] ; then
+if [ ! -e $PKG_CONFIG_LIBDIR/libdivecomputer.pc ] ; then
 	mkdir -p libdivecomputer-build-$ARCH
 	pushd libdivecomputer-build-$ARCH
 	../libdivecomputer/configure --host=${BUILDCHAIN} --prefix=${PREFIX} --enable-static --disable-shared
