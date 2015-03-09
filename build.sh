@@ -145,6 +145,7 @@ if [ ! -e $PKG_CONFIG_LIBDIR/libusb-1.0.pc ] ; then
 	make install
 	popd
 	# Patch libusb-1.0.pc due to bug in there
+	# Fix comming in 1.0.20
 	sed -ie 's/Libs.private:  -c/Libs.private: /' $PKG_CONFIG_LIBDIR/libusb-1.0.pc
 fi
 
