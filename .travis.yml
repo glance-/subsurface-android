@@ -15,8 +15,6 @@ install:
     - ( for d in Qt/*/android_*/bin/ ; do printf '[Paths]\nPrefix=..\n' > $d/qt.conf ; done )
     - rm -rf QT
 
-before_script:
-    - perl -pi -e 's,=\$PWD/../,=\$PWD/,' ./build.sh
-
 script:
-    - bash ./build.sh
+    - ( cd libdivecomputer ; autoreconf -i )
+    - ( cd subsurface/packaging/android/ ; bash ./build.sh )
